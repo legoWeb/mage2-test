@@ -1,0 +1,9 @@
+type Customer {
+  hobby: String
+   @doc(description: "The hobby of the customer.")
+   @resolver(class: "\\Vendor\\Module\\Model\\Resolver\\GetHobbyAttribute")
+}
+
+input CustomerInput {
+  hobby: String
+}

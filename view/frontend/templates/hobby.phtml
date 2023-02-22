@@ -1,0 +1,23 @@
+
+<form class="form manage" action="" method="post" id="form-validate">
+    <fieldset class="fieldset">
+        <div class="field choice">
+            <input type="text"
+                   name="hobby"
+                   id="hobby"
+                   value="<?= $block->escapeHtml(
+                       $block->getCustomer()->getCustomAttribute('hobby')->getValue()
+                   ) ?>"
+                   title="<?= $block->escapeHtmlAttr(__('Edit Hobby')) ?>">
+            <label for="hobby" class="label"><span><?= $block->escapeHtml(__('Change Hobby Name')) ?></span>
+            </label>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" title="<?= $block->escapeHtmlAttr(__('Save')) ?>" class="action save primary">
+                <span><?= $block->escapeHtml(__('Save')) ?></span>
+            </button>
+        </div>
+    </div>
+</form>

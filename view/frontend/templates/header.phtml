@@ -1,0 +1,52 @@
+<?php
+
+use Magento\Framework\Escaper;
+use Magento\Theme\Block\Html\Header;
+use Vendor\Module\ViewModel\GetAttribute;
+
+/**
+ * @var Header $block
+ * @var Escaper $escaper
+ * @var GetAttribute $viewModel
+ */
+$welcomeMessage = $block->getWelcome();
+
+$viewModel = $block->getViewModel();
+?>
+<?php if ($block->getShowPart() == 'welcome'): ?>
+    <li class="greet welcome" data-bind="scope: 'customer'">
+        <!-- ko if: customer().fullname  -->
+        <span class="logged-in"
+              data-bind="text: new String('<?= $escaper->escapeHtml(__('Welcome, %1!', '%1')) ?>').replace('%1', customer().fullname)">
+        </span>
+        <?php if ($viewModel->isHobbyExist()): ?>
+        <span class="hobby">
+                <?= $escaper->escapeHtml(
+                    __('Hobby: %1', $viewModel->getHobbyAttribute())
+                ) ?>
+        </span>
+        <?php endif ?>
+        <!-- /ko -->
+        <!-- ko ifnot: customer().fullname  -->
+        <span class="not-logged-in"
+              data-bind="html: '<?= $escaper->escapeHtmlAttr($welcomeMessage) ?>'"></span>
+        <?= $block->getBlockHtml('header.additional') ?>
+        <!-- /ko -->
+    </li>
+    <script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "customer": {
+                        "component": "Magento_Customer/js/view/customer"
+                    }
+                }
+            }
+        }
+    }
+    </script>
+<?php elseif ($block->getShowPart() == 'other'):?>
+    <?= $block->getChildHtml() ?>
+<?php endif ?>
+
