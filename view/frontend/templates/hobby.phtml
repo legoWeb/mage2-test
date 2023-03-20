@@ -1,23 +1,41 @@
+<?php
 
-<form class="form manage" action="" method="post" id="form-validate">
+use Magento\Framework\Escaper;
+use Vendor\Module\ViewModel\GetAttribute;
+use Magento\Customer\Block\Account\Dashboard\Info;
+
+/**
+ * @var Info $block
+ * @var Escaper $escaper
+ * @var GetAttribute $viewModel
+ */
+
+$viewModel = $block->getViewModel();
+?>
+<form class="form manage" method="POST" action="<?= $this->getUrl('module/account/save'); ?>" id="mcf" >
     <fieldset class="fieldset">
         <div class="field choice">
-            <input type="text"
-                   name="hobby"
-                   id="hobby"
-                   value="<?= $block->escapeHtml(
-                       $block->getCustomer()->getCustomAttribute('hobby')->getValue()
-                   ) ?>"
-                   title="<?= $block->escapeHtmlAttr(__('Edit Hobby')) ?>">
-            <label for="hobby" class="label"><span><?= $block->escapeHtml(__('Change Hobby Name')) ?></span>
-            </label>
+            <select name="hobby" id="hobby">
+                <?php foreach ($viewModel->getHobbyOptions() as $option): ?>
+                    <option value="<?= $escaper->escapeHtml($option['value']);?>"
+                    <?php if ($block->getCustomer()->getCustomAttribute('hobby')->getValue() === $option['value']): ?>
+                        selected <?php endif ?>>
+                        <?= $escaper->escapeHtml($option['label']);?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
     </fieldset>
     <div class="actions-toolbar">
         <div class="primary">
-            <button type="submit" title="<?= $block->escapeHtmlAttr(__('Save')) ?>" class="action save primary">
-                <span><?= $block->escapeHtml(__('Save')) ?></span>
+            <button type="submit"
+                    id="hobby-submit"
+                    title="<?= $escaper->escapeHtmlAttr(__('Save')) ?>"
+                    class="action save primary">
+                <span><?= $escaper->escapeHtml(__('Save')) ?></span>
             </button>
         </div>
     </div>
 </form>
+
+
+

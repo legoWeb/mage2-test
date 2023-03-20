@@ -10,6 +10,7 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Vendor\Module\Model\Constant;
+use Vendor\Module\Model\Config\Source\CustomAttributeOptions;
 
 /**
  * Class Get custom customer attribute 'Hobby'
@@ -22,6 +23,7 @@ class GetAttribute implements ArgumentInterface
      */
     public function __construct(
         private Session $customerSession,
+        private CustomAttributeOptions $attributeOptions,
         private CustomerRepositoryInterface $customerRepository
     ) {
     }
@@ -48,6 +50,16 @@ class GetAttribute implements ArgumentInterface
         }
 
         return (bool)$this->getCustomer()->getCustomAttribute(Constant::HOBBY_ATTRIBUTE);
+    }
+
+    /**
+     * Get hobby's attribute
+     *
+     * @return array
+     */
+    public function getHobbyOptions (): array
+    {
+        return $this->attributeOptions->getAllOptions() ?? [];
     }
 
     /**
